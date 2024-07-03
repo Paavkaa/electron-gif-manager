@@ -29,7 +29,8 @@
     "webpack-dev-server": "^4.15.2"
   },
   "dependencies": {
-    "electron-is-dev": "^3.0.1"
+    "electron-is-dev": "^3.0.1",
+    "react-router-dom": "^6.24.1"
   },
   "build": {
     "appId": "com.yourcompany.yourappname",
