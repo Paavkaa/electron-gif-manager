@@ -4,7 +4,6 @@ const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld('electron', {
     getFolderPath: () => ipcRenderer.invoke('get-folder-path'),
     setFolderPath: (path) => ipcRenderer.invoke('set-folder-path', path),
-    checkFolder: (path) => ipcRenderer.invoke('check-folder', path),
-    createFolder: (path) => ipcRenderer.invoke('create-folder', path),
-    getFiles: (path) => ipcRenderer.invoke('get-files', path),
+    selectFolder: () => ipcRenderer.invoke('select-folder'),
+    createFolder: (folderName) => ipcRenderer.invoke('create-folder', folderName),
 });

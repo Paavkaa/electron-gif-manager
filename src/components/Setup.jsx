@@ -1,25 +1,27 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 export default function Setup() {
     const [folderPath, setFolderPath] = React.useState('');
     const [message, setMessage] = React.useState('');
 
-    const handleCreateFolder = async () => {
-        if(!folderPath) {
-            setMessage('Please enter a valid path');
-            return;
+    useEffect(() => {
+        if(folderPath) {
+            console.log('Folder path:', folderPath);
         }
+    }, [folderPath]);
 
+    const handleSelectFolder = async () => {
         try {
-            const created = await window.electron.createFolder(folderPath);
-            if(created) {
-                setMessage('Folder was created');
+            const path = await window.electron.selectFolder();
+            setFolderPath(path);
+            const success = await window.electron.setFolderPath(path);
+            if (success) {
+                setMessage('Folder was set successfully!');
             } else {
-                setMessage('Folder already exists');
+                setMessage('Folder was not set!');
             }
         } catch (e) {
-            console.error('Error creating folder:', e);
-            setMessage('Error creating folder');
+            console.error('Error selecting folder:', e);
         }
     }
 
@@ -28,7 +30,7 @@ export default function Setup() {
             <h1>Set up</h1>
             <p>There was not found default folder. Let's create one!</p>
 
-            <button onClick={handleCreateFolder}>Create folder</button>
+            <button onClick={handleSelectFolder}>Create folder</button>
             {message && <p>{message}</p>}
         </div>
     );
