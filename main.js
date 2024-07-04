@@ -1,7 +1,11 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
+const { setupFileHandlers } = require('./src/ipc/fileHandlers');
+const Store = require('electron-store');
 
 const isDev = process.env.NODE_ENV === 'development';
+
+const store = new Store();
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -10,7 +14,7 @@ function createWindow() {
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: true,
-            contextIsolation: false,
+            contextIsolation: true,
         },
     });
 

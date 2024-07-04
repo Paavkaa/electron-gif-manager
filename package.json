@@ -30,6 +30,8 @@
   },
   "dependencies": {
     "electron-is-dev": "^3.0.1",
+    "electron-store": "^8.1.0",
+    "esm": "^3.2.25",
     "react-router-dom": "^6.24.1"
   },
   "build": {
