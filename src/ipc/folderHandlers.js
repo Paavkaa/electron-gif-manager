@@ -45,11 +45,19 @@ function setupFolderHandlers() {
     * @returns {Promise<string>} The path of the new folder
      */
     ipcMain.handle('create-folder', async (event, folderName) => {
-        const folderPath = store.get('folderPath');
-        const newFolderPath = `${folderPath}/${folderName}`;
+        const folderPath = store.get('folderPath', '');
+        if (!folderPath) {
+            throw new Error('Base folder path not set');
+        }
+        const newFolderPath = path.join(folderPath, folderName);
 
-        fs.mkdirSync(newFolderPath);
-        return newFolderPath;
+        try {
+            await fs.promises.mkdir(newFolderPath, { recursive: true });
+            return newFolderPath;
+        } catch (error) {
+            console.error('Error creating folder:', error);
+            throw error;
+        }
     });
 
 }
