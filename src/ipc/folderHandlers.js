@@ -60,6 +60,38 @@ function setupFolderHandlers() {
         }
     });
 
+    ipcMain.handle('get-subfolders', async () => {
+        const folderPath = store.get('folderPath', '');
+        if (!folderPath) {
+            throw new Error('Base folder path not set');
+        }
+
+        try {
+            const files = await fs.promises.readdir(folderPath, { withFileTypes: true });
+            const subfolders = files.filter(file => file.isDirectory()).map(file => file.name);
+            return subfolders;
+        } catch (error) {
+            console.error('Error getting subfolders:', error);
+            throw error;
+        }
+    });
+
+    ipcMain.handle('search-folder', async (event, search) => {
+        const folderPath = store.get('folderPath', '');
+        if (!folderPath) {
+            throw new Error('Base folder path not set');
+        }
+
+        try {
+            const files = await fs.promises.readdir(folderPath, { withFileTypes: true });
+            const subfolders = files.filter(file => file.isDirectory() && file.name.includes(search)).map(file => file.name);
+            return subfolders;
+        } catch (error) {
+            console.error('Error searching folder:', error);
+            throw error;
+        }
+    });
+
 }
 
 module.exports = { setupFileHandlers: setupFolderHandlers };
