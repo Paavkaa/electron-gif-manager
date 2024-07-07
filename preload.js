@@ -8,4 +8,5 @@ contextBridge.exposeInMainWorld('electron', {
     createFolder: (folderName) => ipcRenderer.invoke('create-folder', folderName),
     getSubFolders: () => ipcRenderer.invoke('get-subfolders'),
     searchFolder: (search) => ipcRenderer.invoke('search-folder', search),
+    createFile: (fileName, content) => ipcRenderer.invoke('create-file', fileName, content),
 });

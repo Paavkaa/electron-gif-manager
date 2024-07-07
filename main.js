@@ -29,6 +29,7 @@ function createWindow() {
 function initialize() {
     createWindow();
     setupFileHandlers();
+    setupFileHandlers();
 }
 
 app.whenReady().then(initialize);
